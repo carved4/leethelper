@@ -479,7 +479,80 @@
             height: 2.5rem;
         }
 
-        /* Your existing styles remain the same... */
+        /* Modern heading styles */
+        .modern-gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .modern-accent-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .modern-dot {
+            color: #6366f1;
+            opacity: 0.9;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        /* Dark theme adjustments */
+        html.dark .modern-gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(129, 140, 248, 0.3);
+        }
+
+        html.dark .modern-accent-text {
+            background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(129, 140, 248, 0.3);
+        }
+
+        html.dark .modern-dot {
+            color: #818cf8;
+        }
+
+        /* Add animation on page load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Add hover effect */
+        header h1:hover .modern-gradient-text,
+        header h1:hover .modern-accent-text {
+            text-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            transform: translateY(-1px);
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -503,8 +576,10 @@
     <div class="main-container">
         <!-- Hero Section -->
         <header class="text-center py-12 px-4">
-            <h1 class="text-5xl md:text-6xl font-bold mb-4 gradient-text">LeetCode Optimizer</h1>
-            <p class="hero-subtitle max-w-2xl mx-auto">Transform your problem-solving approach with intelligent analysis and optimization suggestions</p>
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                <span class="modern-gradient-text">leet</span><span class="modern-accent-text">help</span><span class="modern-dot">.live</span>
+            </h1>
+            <p class="hero-subtitle max-w-2xl mx-auto">Optimize your problem-solving approach with intelligent analysis and algorithmic suggestions to help you get coding faster!</p>
         </header>
 
         <!-- Search Section -->
