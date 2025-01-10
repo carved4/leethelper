@@ -34,7 +34,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* Light theme */
         html.light body {
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 40%),
                         radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.05), transparent 40%),
@@ -42,7 +41,6 @@
             color: var(--text-primary-light);
         }
 
-        /* Dark theme */
         html.dark body {
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 40%),
                         radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.15), transparent 40%),
@@ -100,7 +98,6 @@
             color: #4f46e5;
         }
 
-        /* Update existing styles for dark mode */
         html.dark .search-card,
         html.dark .result-card,
         html.dark .optimization-card {
@@ -254,7 +251,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Optimization Suggestions Styling */
         .optimization-card {
             background: linear-gradient(145deg, #ffffff, #f8faff);
             border: 1px solid rgba(99, 102, 241, 0.1);
@@ -385,7 +381,6 @@
             font-weight: bold;
         }
 
-        /* Dark theme text color adjustments */
         html.dark .text-gray-900 {
             color: var(--text-primary-dark);
         }
@@ -433,7 +428,6 @@
             color: #f87171;
         }
 
-        /* Add social icon styles */
         .social-link {
             font-size: 1.25rem;
             padding: 0.5rem;
@@ -460,7 +454,6 @@
             background: rgba(240, 246, 252, 0.1);
         }
 
-        /* Navbar specific styles */
         .navbar {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
@@ -517,7 +510,6 @@
             background: rgba(240, 246, 252, 0.1);
         }
 
-        /* Modern heading styles */
         .modern-gradient-text {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #6366f1 100%);
             -webkit-background-clip: text;
@@ -548,8 +540,6 @@
             font-weight: 700;
             letter-spacing: -0.03em;
         }
-
-        /* Dark theme adjustments */
         html.dark .modern-gradient-text {
             background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #818cf8 100%);
             -webkit-background-clip: text;
@@ -568,7 +558,6 @@
             color: #818cf8;
         }
 
-        /* Add animation on page load */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -649,14 +638,14 @@
             margin-right: 4px !important;
         }
 
-        /* Adjust the social links container */
+        
         .social-links {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        /* Update social-link styles for better visibility */
+        
         .social-link {
             width: 2.5rem;
             height: 2.5rem;
@@ -686,7 +675,7 @@
             background: rgba(240, 246, 252, 0.1);
         }
 
-        /* Grid Background Styles */
+        
         body::before {
             content: "";
             position: fixed;
@@ -702,7 +691,6 @@
             mask-image: radial-gradient(circle at center, black 50%, transparent 75%);
         }
 
-        /* Update theme-specific grid colors */
         html.light {
             --grid-color: var(--grid-color-light);
         }
@@ -711,7 +699,6 @@
             --grid-color: var(--grid-color-dark);
         }
 
-        /* Add glow effects to cards */
         .search-card,
         .result-card,
         .optimization-card {
@@ -734,7 +721,6 @@
             pointer-events: none;
         }
 
-        /* Enhance background gradients */
         html.light body {
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 40%),
                         radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.1), transparent 40%),
@@ -745,6 +731,217 @@
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 40%),
                         radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.15), transparent 40%),
                         var(--bg-gradient-dark);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .modern-gradient-text,
+        .modern-accent-text {
+            background-size: 200% auto;
+            animation: shine 8s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        header {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .search-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1),
+                        0 0 20px rgba(99, 102, 241, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .search-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .search-button:hover::before {
+            left: 100%;
+        }
+
+        /* Add subtle pulse animation to theme toggle */
+        .theme-toggle {
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:active i {
+            transform: rotate(180deg);
+        }
+
+        /* Enhanced social links hover effect */
+        .social-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .social-link:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+
+        /* Enhance GitHub button */
+        .github-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .github-link::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .github-link:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Add subtle parallax effect to grid */
+        @media (hover: hover) {
+            body::before {
+                transition: transform 0.2s ease-out;
+            }
+            
+            body:hover::before {
+                transform: scale(1.02) translateY(-0.5%);
+            }
+        }
+
+        /* Enhance difficulty badges */
+        [class*="bg-"][class*="-100"] {
+            position: relative;
+            overflow: hidden;
+        }
+
+        [class*="bg-"][class*="-100"]::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        [class*="bg-"][class*="-100"]:hover::after {
+            opacity: 1;
+        }
+
+        /* Add loading animation enhancement */
+        .loading-spinner {
+            position: relative;
+        }
+
+        .loading-spinner::before,
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.1; transform: scale(1.1); }
+        }
+
+        /* Enhanced scrollbar for modern browsers */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Dark mode scrollbar */
+        html.dark ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.4);
+        }
+
+        html.dark ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.6);
+        }
+
+        /* Selection color */
+        ::selection {
+            background: rgba(99, 102, 241, 0.2);
+            color: currentColor;
+        }
+
+        /* Dark mode selection */
+        html.dark ::selection {
+            background: rgba(99, 102, 241, 0.3);
         }
     </style>
 </head>
