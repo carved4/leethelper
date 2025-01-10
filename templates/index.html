@@ -10,7 +10,7 @@
     <title>leethelp.live</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <style>
         :root {
@@ -45,9 +45,9 @@
         }
 
         .navbar {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(35, 35, 35, 0.8) !important;
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -67,10 +67,12 @@
             padding: 0.5rem;
             border-radius: 0.5rem;
             transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
         .theme-toggle:hover {
             background: rgba(99, 102, 241, 0.1);
+            color: #fff !important;
         }
 
         html.dark .theme-toggle:hover {
@@ -417,11 +419,11 @@
 
         /* Add social icon styles */
         .social-link {
-            color: #4f46e5;
+            color: rgba(255, 255, 255, 0.8) !important;
             font-size: 1.25rem;
             padding: 0.5rem;
             border-radius: 0.5rem;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -430,8 +432,8 @@
         }
 
         .social-link:hover {
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff !important;
         }
 
         html.dark .social-link {
@@ -557,6 +559,83 @@
             transform: translateY(-1px);
             transition: all 0.3s ease;
         }
+
+        .github-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 6px 12px !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 6px !important;
+            color: #fff !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            line-height: 20px !important;
+            text-decoration: none !important;
+            white-space: nowrap !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .github-link:hover {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .github-text {
+            margin: 0 4px !important;
+        }
+
+        .github-stars {
+            display: inline-flex !important;
+            align-items: center !important;
+            margin-left: 8px !important;
+            padding-left: 8px !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .github-stars i {
+            color: #f0b400 !important;
+            margin-right: 4px !important;
+        }
+
+        /* Dark theme adjustments */
+        html.dark .github-link {
+            background-color: #21262d !important;
+            border-color: rgba(240, 246, 252, 0.1) !important;
+            color: #c9d1d9 !important;
+        }
+
+        html.dark .github-link:hover {
+            background-color: #30363d !important;
+        }
+
+        html.dark .github-stars {
+            border-left-color: rgba(240, 246, 252, 0.1) !important;
+        }
+
+        /* Adjust the social links container */
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Keep the existing social-link styles for Twitter */
+        .social-link {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            color: #4f46e5;
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -564,10 +643,23 @@
     <nav class="navbar">
         <div class="navbar-container">
             <div class="social-links">
-                <a href="https://github.com/carved4" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
+                <a href="https://github.com/carved4/leethelper" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="github-link" 
+                   aria-label="GitHub Repository">
                     <i class="fab fa-github"></i>
+                    <span class="github-text">GitHub</span>
+                    <span class="github-stars">
+                        <i class="fas fa-star"></i>
+                        <span id="starCount">0</span>
+                    </span>
                 </a>
-                <a href="https://x.com/owengsmt" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter Profile">
+                <a href="https://x.com/owengsmt" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="social-link" 
+                   aria-label="Twitter Profile">
                     <i class="fab fa-twitter"></i>
                 </a>
             </div>
@@ -832,6 +924,27 @@
         function updateThemeIcon(theme) {
             themeIcon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
         }
+
+        async function updateGitHubStars() {
+            try {
+                const response = await fetch('https://api.github.com/repos/carved4/leethelper');
+                const data = await response.json();
+                const starCount = data.stargazers_count;
+                
+                // Format the number (e.g., 4500 becomes 4.5k)
+                let formattedCount = starCount;
+                if (starCount >= 1000) {
+                    formattedCount = (starCount / 1000).toFixed(1) + 'k';
+                }
+                
+                document.getElementById('starCount').textContent = formattedCount;
+            } catch (error) {
+                console.error('Error fetching GitHub stars:', error);
+            }
+        }
+
+        // Call this when the page loads
+        document.addEventListener('DOMContentLoaded', updateGitHubStars);
     </script>
 </body>
 </html> 
