@@ -574,8 +574,8 @@
             display: inline-flex !important;
             align-items: center !important;
             padding: 6px 12px !important;
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            background-color: #24292e !important;
+            border: 1px solid rgba(240, 246, 252, 0.1) !important;
             border-radius: 6px !important;
             color: #fff !important;
             font-size: 14px !important;
@@ -587,8 +587,27 @@
         }
 
         .github-link:hover {
-            background-color: rgba(255, 255, 255, 0.15) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
+            background-color: #2f363d !important;
+        }
+
+        html.light .github-link {
+            background-color: #24292e !important;
+            color: #fff !important;
+            border-color: rgba(240, 246, 252, 0.1) !important;
+        }
+
+        html.light .github-link:hover {
+            background-color: #2f363d !important;
+        }
+
+        html.dark .github-link {
+            background-color: #21262d !important;
+            border-color: rgba(240, 246, 252, 0.1) !important;
+            color: #c9d1d9 !important;
+        }
+
+        html.dark .github-link:hover {
+            background-color: #30363d !important;
         }
 
         .github-text {
@@ -608,21 +627,6 @@
             margin-right: 4px !important;
         }
 
-        /* Dark theme adjustments */
-        html.dark .github-link {
-            background-color: #21262d !important;
-            border-color: rgba(240, 246, 252, 0.1) !important;
-            color: #c9d1d9 !important;
-        }
-
-        html.dark .github-link:hover {
-            background-color: #30363d !important;
-        }
-
-        html.dark .github-stars {
-            border-left-color: rgba(240, 246, 252, 0.1) !important;
-        }
-
         /* Adjust the social links container */
         .social-links {
             display: flex;
@@ -630,7 +634,7 @@
             gap: 1rem;
         }
 
-        /* Keep the existing social-link styles for Twitter */
+        /* Update social-link styles for better visibility */
         .social-link {
             width: 2.5rem;
             height: 2.5rem;
@@ -638,13 +642,26 @@
             align-items: center;
             justify-content: center;
             border-radius: 0.5rem;
-            color: #4f46e5;
             transition: all 0.2s ease;
+            color: #24292e;
+            font-size: 1.25rem;
+        }
+
+        html.light .social-link {
+            color: #24292e;
+        }
+
+        html.dark .social-link {
+            color: #c9d1d9;
         }
 
         .social-link:hover {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(36, 41, 46, 0.1);
             transform: translateY(-2px);
+        }
+
+        html.dark .social-link:hover {
+            background: rgba(240, 246, 252, 0.1);
         }
     </style>
 </head>
