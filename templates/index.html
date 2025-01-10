@@ -45,14 +45,17 @@
         }
 
         .navbar {
-            background: rgba(35, 35, 35, 0.8) !important;
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
             transition: all 0.3s ease;
             padding: 0.75rem 0;
+        }
+
+        html.light .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid var(--border-light);
         }
 
         html.dark .navbar {
@@ -67,7 +70,14 @@
             padding: 0.5rem;
             border-radius: 0.5rem;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        html.light .theme-toggle {
+            color: var(--text-primary-light);
+        }
+
+        html.dark .theme-toggle {
+            color: var(--text-primary-dark);
         }
 
         .theme-toggle:hover {
