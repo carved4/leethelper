@@ -13,6 +13,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        @import url('https://fonts.cdnfonts.com/css/eightgon');
+
+        .modern-gradient-text,
+        .modern-accent-text,
+        .modern-dot {
+            font-family: 'Eightgon', sans-serif;
+        }
+
+        .hero-subtitle {
+            font-family: 'Eightgon', sans-serif;
+            color: #6366f1;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            letter-spacing: 0.02em;
+        }
+
+        header h1 {
+            font-family: 'Eightgon', sans-serif;
+            animation: fadeInUp 0.8s ease-out forwards;
+            letter-spacing: 0.02em;
+        }
+
         :root {
             --bg-gradient-light: linear-gradient(135deg, #f0f4ff 0%, #f9fafb 100%);
             --bg-gradient-dark: linear-gradient(135deg, #1a1b1e 0%, #2d2d35 100%);
@@ -468,11 +491,84 @@
         .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 3rem;
+            min-height: 3.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 0.5rem;
+            }
+
+            .social-links {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .flex.items-center.gap-4 {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+
+            #statsDropdownButton {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
+
+            #statsDropdown {
+                right: 50%;
+                transform: translateX(50%) translateY(-10px);
+                min-width: calc(100vw - 2rem);
+                max-width: 90vw;
+            }
+
+            #statsDropdown.show {
+                transform: translateX(50%) translateY(0);
+            }
+
+            .github-link {
+                font-size: 0.875rem;
+                padding: 4px 8px;
+            }
+
+            .social-link {
+                width: 2rem;
+                height: 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-container {
+                padding: 0.5rem 0.25rem;
+            }
+
+            #statsDropdownButton {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .github-text {
+                display: none;
+            }
+
+            .github-link {
+                padding: 4px;
+                width: auto;
+            }
+
+            .github-stars {
+                border-left: none;
+                padding-left: 4px;
+                margin-left: 0;
+            }
         }
 
         .social-links {
@@ -943,6 +1039,140 @@
         html.dark ::selection {
             background: rgba(99, 102, 241, 0.3);
         }
+
+        #statsDropdownButton {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        html.light #statsDropdownButton {
+            background: rgba(99, 102, 241, 0.1);
+            color: #4f46e5;
+        }
+
+        html.dark #statsDropdownButton {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+
+        #statsDropdownButton:hover {
+            transform: translateY(-1px);
+        }
+
+        #statsDropdownButton::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        #statsDropdownButton:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
+        #statsDropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background: white;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+            min-width: 18rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        #statsDropdown.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        html.dark #statsDropdown {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        #statsDropdown form {
+            padding: 1rem;
+        }
+
+        #statsDropdown label {
+            color: var(--text-primary-light);
+        }
+
+        html.dark #statsDropdown label {
+            color: var(--text-primary-dark);
+        }
+
+        #statsDropdown input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            background: white;
+            color: var(--text-primary-light);
+            transition: all 0.2s ease;
+        }
+
+        html.dark #statsDropdown input {
+            background: #1f2937;
+            border-color: #374151;
+            color: var(--text-primary-dark);
+        }
+
+        #statsDropdown input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        html.dark #statsDropdown input:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+        }
+
+        #statsDropdown button {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #statsDropdown button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
+        }
+
+        html.dark #statsDropdown button {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        html.dark #statsDropdown button:hover {
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -977,9 +1207,36 @@
                     <i class="fab fa-linkedin"></i>
                 </a>
             </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <i class="fas fa-moon"></i>
-            </button>
+            <div class="flex items-center gap-4">
+                <div class="relative inline-block">
+                    <button id="statsDropdownButton" 
+                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="whitespace-nowrap">check leetcode stats</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="statsDropdown">
+                        <form id="profileForm" class="space-y-4">
+                            <div>
+                                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">enter user<label>
+                                <input type="text" 
+                                       id="username" 
+                                       name="username" 
+                                       required
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                                       placeholder="e.g., leetcoder">
+                            </div>
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <i class="fas fa-user mr-2"></i>
+                                View Profile
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -989,7 +1246,7 @@
             <h1 class="text-5xl md:text-6xl font-bold mb-4">
                 <span class="modern-gradient-text">leet</span><span class="modern-accent-text">help</span><span class="modern-dot">.live</span>
             </h1>
-            <p class="hero-subtitle max-w-2xl mx-auto">Optimize your problem-solving approach with intelligent analysis and algorithmic suggestions to help you get coding faster!</p>
+            <p class="hero-subtitle max-w-2xl mx-auto">Decode patterns. Master approaches. Solve with confidence. ✨</p>
         </header>
 
         <!-- Search Section -->
@@ -1009,6 +1266,51 @@
                     <span>Analyze Problem</span>
                 </button>
             </form>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile" class="hidden space-y-8">
+            <div class="result-card">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <h2 id="profileUsername" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
+                    <span id="profileRanking" class="px-4 py-2 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800"></span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <!-- Solved Problems -->
+                    <div class="complexity-section">
+                        <div class="section-title">
+                            <i class="fas fa-check-circle"></i>
+                            Problems Solved
+                        </div>
+                        <div id="solvedStats" class="complexity-content grid grid-cols-3 gap-4">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Success Rate -->
+                    <div class="complexity-section">
+                        <div class="section-title">
+                            <i class="fas fa-chart-line"></i>
+                            Success Rate
+                        </div>
+                        <div id="successRate" class="complexity-content">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Reputation -->
+                    <div class="complexity-section">
+                        <div class="section-title">
+                            <i class="fas fa-star"></i>
+                            Profile Stats
+                        </div>
+                        <div id="reputation" class="complexity-content">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Loading State -->
@@ -1300,6 +1602,134 @@
                 document.getElementById('problem_number').value = '';
                 document.getElementById('problem_number').focus();
             }
+        });
+
+        // Add profile form handling
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const loadingEl = document.getElementById('loading');
+            const profileEl = document.getElementById('profile');
+            const resultsEl = document.getElementById('results');
+            
+            loadingEl.classList.remove('hidden');
+            profileEl.classList.add('hidden');
+            resultsEl.classList.add('hidden');
+            
+            try {
+                const response = await fetch('/profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `username=${username}`
+                });
+
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch profile data');
+                }
+                
+                // Update profile details
+                document.getElementById('profileUsername').textContent = data.username || username;
+                document.getElementById('profileRanking').textContent = `Rank: ${data.profile?.ranking || 'N/A'}`;
+                
+                // Update solved problems stats
+                const solvedStats = document.getElementById('solvedStats');
+                const stats = data.submitStats?.acSubmissionNum || [];
+                if (stats.length > 0) {
+                    solvedStats.innerHTML = stats.map(stat => {
+                        const difficulty = stat?.difficulty || 'Unknown';
+                        const count = parseInt(stat?.count) || 0;
+                        return `
+                            <div class="text-center">
+                                <div class="text-2xl font-bold ${getDifficultyTextClass(difficulty)}">${count}</div>
+                                <div class="text-sm text-gray-600">${difficulty}</div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    solvedStats.innerHTML = '<div class="text-gray-600">No solved problems data available</div>';
+                }
+                
+                // Update success rate
+                const successRate = document.getElementById('successRate');
+                const beatsStats = data.problemsSolvedBeatsStats || [];
+                if (beatsStats.length > 0) {
+                    successRate.innerHTML = beatsStats.map(stat => {
+                        const difficulty = stat?.difficulty || 'Unknown';
+                        const percentage = parseFloat(stat?.percentage) || 0;
+                        return `
+                            <div class="mb-2">
+                                <div class="text-sm text-gray-600">${difficulty}</div>
+                                <div class="text-lg font-semibold">Beats ${percentage.toFixed(1)}%</div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    successRate.innerHTML = '<div class="text-gray-600">No success rate data available</div>';
+                }
+                
+                // Update reputation
+                const reputation = document.getElementById('reputation');
+                const profile = data.profile || {};
+                const reputationValue = parseInt(profile.reputation) || 0;
+                const starRating = parseFloat(profile.starRating) || 0;
+                reputation.innerHTML = `
+                    <div class="mb-2">
+                        <div class="text-sm text-gray-600">Reputation</div>
+                        <div class="text-lg font-semibold">${reputationValue}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-600">Rating</div>
+                        <div class="text-lg font-semibold">${'★'.repeat(Math.round(starRating))}</div>
+                    </div>
+                `;
+                
+                profileEl.classList.remove('hidden');
+            } catch (error) {
+                alert(error.message || 'An error occurred while fetching the profile');
+            } finally {
+                loadingEl.classList.add('hidden');
+            }
+        });
+
+        function getDifficultyTextClass(difficulty) {
+            const classes = {
+                'Easy': 'text-green-600',
+                'Medium': 'text-yellow-600',
+                'Hard': 'text-red-600'
+            };
+            return classes[difficulty] || 'text-gray-600';
+        }
+
+        // Add this new script for dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownButton = document.getElementById('statsDropdownButton');
+            const dropdown = document.getElementById('statsDropdown');
+            let isDropdownVisible = false;
+            
+            dropdownButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isDropdownVisible = !isDropdownVisible;
+                if (isDropdownVisible) {
+                    dropdown.classList.add('show');
+                } else {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && !dropdownButton.contains(e.target)) {
+                    dropdown.classList.remove('show');
+                    isDropdownVisible = false;
+                }
+            });
+            
+            dropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
         });
     </script>
 </body>

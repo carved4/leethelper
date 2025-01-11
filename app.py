@@ -883,6 +883,110 @@ def analyze_constraints(constraints, description, title=""):
     return analysis
 
 
+def get_leetcode_profile(username):
+    """Fetch LeetCode profile data using GraphQL API"""
+    try:
+        url = "https://leetcode.com/graphql"
+
+        # GraphQL query for user profile
+        query = """
+        query getUserProfile($username: String!) {
+            matchedUser(username: $username) {
+                username
+                submitStats: submitStatsGlobal {
+                    acSubmissionNum {
+                        difficulty
+                        count
+                        submissions
+                    }
+                }
+                problemsSolvedBeatsStats {
+                    difficulty
+                    percentage
+                }
+                profile {
+                    ranking
+                    reputation
+                    starRating
+                }
+            }
+        }
+        """
+
+        # Variables for the query
+        variables = {"username": username}
+
+        # Make the request
+        response = requests.post(
+            url,
+            json={"query": query, "variables": variables},
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            },
+        )
+
+        data = response.json()
+        user_data = data.get("data", {}).get("matchedUser")
+
+        if not user_data:
+            raise Exception("User not found")
+
+        # Get nested data with defaults
+        submit_stats = user_data.get("submitStats", {})
+        submission_numbers = submit_stats.get("acSubmissionNum", [])
+        beats_stats = user_data.get("problemsSolvedBeatsStats", [])
+        profile = user_data.get("profile", {})
+
+        # Create default submission stats if empty
+        if not submission_numbers:
+            submission_numbers = [
+                {"difficulty": "Easy", "count": 0, "submissions": 0},
+                {"difficulty": "Medium", "count": 0, "submissions": 0},
+                {"difficulty": "Hard", "count": 0, "submissions": 0},
+            ]
+
+        # Create default beats stats if empty
+        if not beats_stats:
+            beats_stats = [
+                {"difficulty": "Easy", "percentage": 0},
+                {"difficulty": "Medium", "percentage": 0},
+                {"difficulty": "Hard", "percentage": 0},
+            ]
+
+        # Ensure all required fields exist with default values
+        profile_data = {
+            "username": user_data.get("username", username),
+            "submitStats": {
+                "acSubmissionNum": [
+                    {
+                        "difficulty": item.get("difficulty", "Unknown"),
+                        "count": item.get("count", 0),
+                        "submissions": item.get("submissions", 0),
+                    }
+                    for item in submission_numbers
+                ]
+            },
+            "problemsSolvedBeatsStats": [
+                {
+                    "difficulty": item.get("difficulty", "Unknown"),
+                    "percentage": item.get("percentage", 0),
+                }
+                for item in beats_stats
+            ],
+            "profile": {
+                "ranking": profile.get("ranking", 0),
+                "reputation": profile.get("reputation", 0),
+                "starRating": profile.get("starRating", 0),
+            },
+        }
+
+        return profile_data
+
+    except Exception as e:
+        raise Exception(f"Failed to fetch profile: {str(e)}")
+
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
@@ -918,6 +1022,22 @@ def analyze_problem():
                 "optimization": optimization,
             }
         )
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/profile", methods=["POST"])
+def get_profile():
+    try:
+        username = request.form.get("username")
+        if not username:
+            return jsonify({"error": "Username is required"}), 400
+
+        # Fetch profile data
+        profile_data = get_leetcode_profile(username)
+
+        return jsonify(profile_data)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
