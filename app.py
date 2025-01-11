@@ -166,16 +166,54 @@ def analyze_constraints(constraints, description, title=""):
     """Analyze constraints to suggest optimal approaches"""
     analysis = {"time_complexity": "", "space_complexity": "", "approaches": []}
 
-    # Check for specific problem patterns in the title
+    # Normalize input text for pattern matching
     title_lower = title.lower()
-    if any(
-        keyword in title_lower for keyword in ["trapping rain water", "trapping water"]
-    ):
-        # Return specific Two Pointers approach for trapping water problems
-        analysis["time_complexity"] = "O(n) - single pass through the array"
-        analysis["space_complexity"] = "O(1) - only using two pointers"
-        analysis["approaches"] = "\n".join(
-            [
+    full_text = f"{title_lower} {description.lower()} {constraints.lower()}"
+
+    # Define core problem patterns that should trigger specific recommendations
+    CORE_PATTERNS = {
+        "k_sum": {
+            "patterns": [
+                "two sum",
+                "three sum",
+                "3sum",
+                "four sum",
+                "4sum",
+                "ksum",
+                "k sum",
+                "k-sum",
+            ],
+            "time": "O(n^(k-1)) for k-sum, O(n²) for 2-sum with sorting",
+            "space": "O(1) excluding the output array",
+            "approach": [
+                "Two Pointers Approach (Optimal for K-Sum Problems):",
+                "1. Implementation Strategy:",
+                "   • Sort the array first (O(n log n))",
+                "   • Fix k-2 elements with nested loops",
+                "   • Use two pointers for the remaining sum",
+                "",
+                "2. Algorithm Steps:",
+                "   • Handle base cases (k < 2, array too small)",
+                "   • Sort array to enable two-pointer technique",
+                "   • For k > 2: recursively reduce to k-1 sum",
+                "   • For k = 2: use two pointers from both ends",
+                "",
+                "3. Optimization Techniques:",
+                "   • Skip duplicates at each level",
+                "   • Early termination if sum too large/small",
+                "   • Reuse sorted array across recursive calls",
+                "",
+                "4. Key Considerations:",
+                "   • Handle duplicates carefully",
+                "   • Consider overflow for large numbers",
+                "   • Track all unique combinations",
+            ],
+        },
+        "trapping_water": {
+            "patterns": ["trapping rain water", "trapping water"],
+            "time": "O(n) - single pass through the array",
+            "space": "O(1) - only using two pointers",
+            "approach": [
                 "Two Pointers Approach (Optimal for Trapping Water):",
                 "1. Implementation Strategy:",
                 "   • Use two pointers (left and right) starting from array ends",
@@ -197,47 +235,111 @@ def analyze_constraints(constraints, description, title=""):
                 "   • Single pass through the array",
                 "   • Constant extra space",
                 "   • Handles all edge cases efficiently",
+            ],
+        },
+        "next_permutation": {
+            "patterns": ["next permutation", "next greater permutation"],
+            "time": "O(n) - at most two passes through the array",
+            "space": "O(1) - in-place modification",
+            "approach": [
+                "Two Pointers Approach (Optimal for Next Permutation):",
+                "1. Implementation Strategy:",
+                "   • Find the first decreasing element from right",
+                "   • Find the smallest element greater than found element",
+                "   • Swap these elements and reverse the remaining array",
+                "",
+                "2. Algorithm Steps:",
+                "   • Scan from right to find first pair where arr[i] < arr[i+1]",
+                "   • If no such pair, reverse entire array",
+                "   • Otherwise, find smallest element > arr[i] in suffix",
+                "   • Swap these elements and reverse suffix",
+                "",
+                "3. Key Considerations:",
+                "   • Handle edge cases (descending array)",
+                "   • Ensure in-place modification",
+                "   • Maintain lexicographical order",
+                "",
+                "4. Optimization Benefits:",
+                "   • Linear time complexity",
+                "   • Constant extra space",
+                "   • Single or at most two passes",
+            ],
+        },
+    }
+
+    # Check for core patterns first
+    for pattern_type, details in CORE_PATTERNS.items():
+        if any(pattern in full_text for pattern in details["patterns"]):
+            analysis["time_complexity"] = details["time"]
+            analysis["space_complexity"] = details["space"]
+            analysis["approaches"] = "\n".join(details["approach"])
+            return analysis
+
+    # General two pointer patterns
+    TWO_POINTER_KEYWORDS = [
+        "palindrome",
+        "reverse",
+        "two pointer",
+        "opposite ends",
+        "container with most water",
+        "subsequence",
+        "closest pair",
+        "meeting point",
+        "remove duplicates",
+        "move zeroes",
+        "sort colors",
+        "partition array",
+        "dutch flag",
+        "boats to save",
+        "minimize maximum pair",
+        "shortest distance",
+        "valid palindrome",
+        "reverse vowels",
+        "squares of sorted array",
+    ]
+
+    if any(keyword in full_text for keyword in TWO_POINTER_KEYWORDS):
+        analysis["time_complexity"] = (
+            "O(n) for single pass, O(n log n) if sorting is needed"
+        )
+        analysis["space_complexity"] = "O(1) - only using a few pointers"
+        analysis["approaches"] = "\n".join(
+            [
+                "Two Pointers Approach:",
+                "1. Problem Type Identification:",
+                "   • String/Array Manipulation:",
+                "     - Palindrome checking",
+                "     - String/array reversal",
+                "     - In-place modifications",
+                "   • Two-End Problems:",
+                "     - Container with water",
+                "     - Meeting point problems",
+                "     - Closest pair problems",
+                "",
+                "2. Implementation Strategy:",
+                "   • Choose pointer placement:",
+                "     - Opposite ends (most common)",
+                "     - Same direction (sliding window)",
+                "     - Fast/slow pointers",
+                "   • Define movement conditions:",
+                "     - Based on element properties",
+                "     - Based on problem constraints",
+                "   • Handle special cases:",
+                "     - Duplicates",
+                "     - Empty/single element",
+                "     - Already sorted/reversed",
+                "",
+                "3. Common Optimization Techniques:",
+                "   • Early termination conditions",
+                "   • Skip duplicate elements",
+                "   • In-place modifications",
+                "   • Minimize extra space usage",
             ]
         )
         return analysis
 
-    # Combine constraints and description for better pattern matching
-    text_to_analyze = (constraints + " " + description).lower()
-
-    # Define patterns dictionary with comprehensive analysis
+    # Continue with other patterns...
     patterns = {
-        "Two Pointers": {
-            "keywords": [
-                "two pointers",
-                "palindrome",
-                "reverse",
-                "sorted array",
-                "container with most water",
-                "subsequence",
-                "meeting points",
-                "opposite ends",
-                "closest",
-                "three sum",
-                "pair sum",
-            ],
-            "suggestion": "Consider using Two Pointers technique - useful for array traversal from both ends",
-            "time_complexity": "O(n) - single pass through the array",
-            "space_complexity": "O(1) - only using a few pointers",
-            "detailed_approach": [
-                "1. Identify if the problem involves:",
-                "   • Finding pairs/triplets that satisfy a condition",
-                "   • Processing elements from opposite ends",
-                "   • Comparing elements with complementary properties",
-                "2. Key implementation considerations:",
-                "   • Initialize pointers at strategic positions (e.g., start/end)",
-                "   • Define clear pointer movement conditions",
-                "   • Handle duplicates if mentioned in constraints",
-                "3. Common optimization techniques:",
-                "   • Sort the array first if order doesn't matter",
-                "   • Skip duplicate elements for unique results",
-                "   • Use while loop for flexible pointer movement",
-            ],
-        },
         "Binary Search": {
             "keywords": [
                 "sorted array",
@@ -785,7 +887,7 @@ def analyze_constraints(constraints, description, title=""):
     }
 
     # Check for specific number/integer manipulation patterns
-    if any(word in text_to_analyze for word in ["integer", "number", "digit"]):
+    if any(word in full_text for word in ["integer", "number", "digit"]):
         range_match = re.search(r"-?(\d+)\s*<=\s*\w+\s*<=\s*(\d+)", constraints)
         if range_match:
             max_abs = max(
@@ -826,7 +928,7 @@ def analyze_constraints(constraints, description, title=""):
     matched_approaches = []
     for approach, pattern_info in patterns.items():
         for keyword in pattern_info["keywords"]:
-            if re.search(r"\b" + re.escape(keyword) + r"\b", text_to_analyze):
+            if re.search(r"\b" + re.escape(keyword) + r"\b", full_text):
                 matched_approaches.append(
                     {
                         "name": approach,
