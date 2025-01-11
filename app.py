@@ -162,9 +162,44 @@ def get_leetcode_problem(problem_number):
         raise Exception(f"Failed to fetch problem: {str(e)}")
 
 
-def analyze_constraints(constraints, description):
+def analyze_constraints(constraints, description, title=""):
     """Analyze constraints to suggest optimal approaches"""
     analysis = {"time_complexity": "", "space_complexity": "", "approaches": []}
+
+    # Check for specific problem patterns in the title
+    title_lower = title.lower()
+    if any(
+        keyword in title_lower for keyword in ["trapping rain water", "trapping water"]
+    ):
+        # Return specific Two Pointers approach for trapping water problems
+        analysis["time_complexity"] = "O(n) - single pass through the array"
+        analysis["space_complexity"] = "O(1) - only using two pointers"
+        analysis["approaches"] = "\n".join(
+            [
+                "Two Pointers Approach (Optimal for Trapping Water):",
+                "1. Implementation Strategy:",
+                "   • Use two pointers (left and right) starting from array ends",
+                "   • Track maximum height seen from left and right",
+                "   • Calculate trapped water based on the smaller of left_max and right_max",
+                "",
+                "2. Key Variables to Track:",
+                "   • left_max: Maximum height seen from left side",
+                "   • right_max: Maximum height seen from right side",
+                "   • result: Total trapped water",
+                "",
+                "3. Algorithm Steps:",
+                "   • Initialize pointers and max heights",
+                "   • Move pointers based on which side has smaller height",
+                "   • Update max heights and calculate trapped water",
+                "   • Continue until pointers meet",
+                "",
+                "4. Optimization Benefits:",
+                "   • Single pass through the array",
+                "   • Constant extra space",
+                "   • Handles all edge cases efficiently",
+            ]
+        )
+        return analysis
 
     # Combine constraints and description for better pattern matching
     text_to_analyze = (constraints + " " + description).lower()
@@ -868,7 +903,9 @@ def analyze_problem():
 
         # Analyze problem and generate optimization suggestions
         optimization = analyze_constraints(
-            problem["constraints"], problem["description"]
+            problem["constraints"],
+            problem["description"],
+            problem["title"],  # Pass the title to analyze_constraints
         )
 
         return jsonify(
@@ -887,4 +924,4 @@ def analyze_problem():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

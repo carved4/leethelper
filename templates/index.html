@@ -969,6 +969,13 @@
                    aria-label="Twitter Profile">
                     <i class="fab fa-twitter"></i>
                 </a>
+                <a href="https://www.linkedin.com/in/owengsmt" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="social-link" 
+                   aria-label="LinkedIn Profile">
+                    <i class="fab fa-linkedin"></i>
+                </a>
             </div>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <i class="fas fa-moon"></i>
@@ -1076,6 +1083,24 @@
 
                     <!-- Approaches Section -->
                     <div id="approachesContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Dialog -->
+    <div id="errorDialog" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 relative transform transition-all">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                    <i class="fas fa-lock text-red-600"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2" id="errorTitle">Premium Question</h3>
+                <p class="text-sm text-gray-500" id="errorMessage"></p>
+                <div class="mt-6">
+                    <button id="closeErrorDialog" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                        Try a Different Problem
+                    </button>
                 </div>
             </div>
         </div>
@@ -1195,7 +1220,15 @@
                     throw new Error(data.error || 'An error occurred');
                 }
             } catch (error) {
-                alert(error.message);
+                const errorDialog = document.getElementById('errorDialog');
+                const errorMessage = document.getElementById('errorMessage');
+                
+                if (error.message.includes('NoneType') || error.message.toLowerCase().includes('failed to fetch problem')) {
+                    errorMessage.textContent = "This appears to be a premium question. Please try a different problem number.";
+                    errorDialog.classList.remove('hidden');
+                } else {
+                    alert(error.message);
+                }
             } finally {
                 loadingEl.classList.add('hidden');
             }
@@ -1252,6 +1285,22 @@
 
         // Call this when the page loads
         document.addEventListener('DOMContentLoaded', updateGitHubStars);
+
+        // Add event listener for closing the error dialog
+        document.getElementById('closeErrorDialog').addEventListener('click', () => {
+            document.getElementById('errorDialog').classList.add('hidden');
+            document.getElementById('problem_number').value = '';
+            document.getElementById('problem_number').focus();
+        });
+
+        // Close dialog when clicking outside
+        document.getElementById('errorDialog').addEventListener('click', (e) => {
+            if (e.target.id === 'errorDialog') {
+                document.getElementById('errorDialog').classList.add('hidden');
+                document.getElementById('problem_number').value = '';
+                document.getElementById('problem_number').focus();
+            }
+        });
     </script>
 </body>
 </html> 
