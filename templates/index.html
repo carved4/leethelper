@@ -502,56 +502,77 @@
 
         @media (max-width: 768px) {
             .navbar-container {
-                padding: 0.5rem;
+                padding: 0.75rem 1rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                justify-content: space-between;
             }
 
             .social-links {
-                order: 2;
-                width: 100%;
-                justify-content: center;
+                order: 1;
+                width: auto;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
             }
 
             .flex.items-center.gap-4 {
-                order: 1;
-                width: 100%;
-                justify-content: center;
-                margin-bottom: 0.5rem;
+                order: 2;
+                width: auto;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin: 0;
             }
 
             #statsDropdownButton {
+                background: rgba(99, 102, 241, 0.1);
+                padding: 0.5rem 0.75rem;
+                border-radius: 0.75rem;
                 font-size: 0.875rem;
-                padding: 0.5rem 1rem;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
             }
 
-            #statsDropdown {
-                right: 50%;
-                transform: translateX(50%) translateY(-10px);
-                min-width: calc(100vw - 2rem);
-                max-width: 90vw;
-            }
-
-            #statsDropdown.show {
-                transform: translateX(50%) translateY(0);
+            html.dark #statsDropdownButton {
+                background: rgba(99, 102, 241, 0.2);
             }
 
             .github-link {
+                height: 36px;
+                padding: 0 0.75rem;
                 font-size: 0.875rem;
-                padding: 4px 8px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
             }
 
             .social-link {
-                width: 2rem;
-                height: 2rem;
-                font-size: 1rem;
+                width: 36px;
+                height: 36px;
+                font-size: 1.125rem;
+            }
+
+            .theme-toggle {
+                width: 36px;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(99, 102, 241, 0.1);
+                border-radius: 0.75rem;
+            }
+
+            html.dark .theme-toggle {
+                background: rgba(99, 102, 241, 0.2);
             }
         }
 
         @media (max-width: 480px) {
             .navbar-container {
-                padding: 0.5rem 0.25rem;
-            }
-
-            #statsDropdownButton {
                 padding: 0.5rem 0.75rem;
             }
 
@@ -560,14 +581,72 @@
             }
 
             .github-link {
-                padding: 4px;
+                padding: 0 0.5rem;
                 width: auto;
             }
 
             .github-stars {
-                border-left: none;
-                padding-left: 4px;
                 margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+            }
+
+            #statsDropdownButton span {
+                display: none;
+            }
+
+            #statsDropdownButton {
+                padding: 0;
+                width: 36px;
+                justify-content: center;
+            }
+
+            #statsDropdownButton i.fa-chevron-down {
+                display: none;
+            }
+        }
+
+        /* Add smooth bottom sheet interaction */
+        @media (max-width: 768px) {
+            #statsDropdown {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            #statsDropdown.show {
+                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 
+                           0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+
+            /* Add overscroll behavior */
+            body {
+                overscroll-behavior-y: contain;
+            }
+
+            /* Improve touch targets */
+            .social-link,
+            .theme-toggle,
+            #statsDropdownButton,
+            .search-button,
+            .github-link {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            /* Add active states for touch */
+            .social-link:active,
+            .theme-toggle:active,
+            #statsDropdownButton:active,
+            .search-button:active,
+            .github-link:active {
+                transform: scale(0.95);
+            }
+
+            /* Improve form inputs */
+            input[type="text"],
+            input[type="number"] {
+                -webkit-appearance: none;
+                border-radius: 0.75rem;
+                font-size: 16px; /* Prevent iOS zoom */
             }
         }
 
@@ -1212,13 +1291,13 @@
                     <button id="statsDropdownButton" 
                             class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200">
                         <i class="fas fa-chart-line"></i>
-                        <span class="whitespace-nowrap">check leetcode stats</span>
+                        <span class="whitespace-nowrap">leetcode stats</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
                     <div id="statsDropdown">
                         <form id="profileForm" class="space-y-4">
                             <div>
-                                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">enter user<label>
+                                <label for="username" class="block text-sm font-medium text-gray-700 mb-1"></label>
                                 <input type="text" 
                                        id="username" 
                                        name="username" 
@@ -1710,25 +1789,60 @@
             const dropdown = document.getElementById('statsDropdown');
             let isDropdownVisible = false;
             
+            // Function to close dropdown
+            function closeDropdown() {
+                dropdown.classList.remove('show');
+                isDropdownVisible = false;
+            }
+            
+            // Toggle dropdown on button click
             dropdownButton.addEventListener('click', (e) => {
                 e.stopPropagation();
                 isDropdownVisible = !isDropdownVisible;
                 if (isDropdownVisible) {
                     dropdown.classList.add('show');
                 } else {
-                    dropdown.classList.remove('show');
+                    closeDropdown();
                 }
             });
             
+            // Close dropdown when clicking outside
             document.addEventListener('click', (e) => {
                 if (!dropdown.contains(e.target) && !dropdownButton.contains(e.target)) {
-                    dropdown.classList.remove('show');
-                    isDropdownVisible = false;
+                    closeDropdown();
                 }
             });
             
+            // Prevent dropdown from closing when clicking inside it
             dropdown.addEventListener('click', (e) => {
                 e.stopPropagation();
+            });
+
+            // Add touch event handling for mobile
+            let touchStartY = 0;
+            let touchEndY = 0;
+            
+            dropdown.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            dropdown.addEventListener('touchmove', (e) => {
+                touchEndY = e.touches[0].clientY;
+                const deltaY = touchEndY - touchStartY;
+                
+                // If user is scrolling down and is at the top of the content
+                if (deltaY > 50 && dropdown.scrollTop === 0) {
+                    closeDropdown();
+                }
+            }, { passive: true });
+
+            // Handle form submission
+            const profileForm = document.getElementById('profileForm');
+            profileForm.addEventListener('submit', (e) => {
+                // Keep the dropdown open on mobile after form submission
+                if (window.innerWidth > 768) {
+                    closeDropdown();
+                }
             });
         });
     </script>
