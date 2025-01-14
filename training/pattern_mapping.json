@@ -1,0 +1,12 @@
+{
+  "backtracking": 0,
+  "binary_search": 1,
+  "dynamic_programming": 2,
+  "graph": 3,
+  "heap": 4,
+  "k_sum": 5,
+  "sliding_window": 6,
+  "string_manipulation": 7,
+  "tree_traversal": 8,
+  "two_pointers": 9
+}
