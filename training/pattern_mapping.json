@@ -8,5 +8,21 @@
   "sliding_window": 6,
   "string_manipulation": 7,
   "tree_traversal": 8,
-  "two_pointers": 9
+  "two_pointers": 9,
+  "hash_table": 10,
+  "stack": 11,
+  "greedy": 12,
+  "union_find": 13,
+  "bit_manipulation": 14,
+  "prefix_sum": 15,
+  "intervals": 16,
+  "sorting": 17,
+  "matrix": 18,
+  "monotonic_stack": 19,
+  "trie": 20,
+  "divide_and_conquer": 21,
+  "recursion": 22,
+  "bitmask": 23,
+  "binary_tree": 24,
+  "topological_sort": 25
 }

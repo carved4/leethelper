@@ -247,17 +247,40 @@
         }
 
         .result-card {
-            background: linear-gradient(145deg, #ffffff, #f8faff);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 255, 0.9));
             border: 1px solid rgba(99, 102, 241, 0.1);
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            opacity: 0.7;
+        }
+
+        html.dark .result-card {
+            background: linear-gradient(145deg, rgba(45, 45, 53, 0.9), rgba(35, 35, 43, 0.9));
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .result-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.1);
+        }
+
+        html.dark .result-card:hover {
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.2);
         }
 
         .loading-spinner {
@@ -275,48 +298,87 @@
         }
 
         .optimization-card {
-            background: linear-gradient(145deg, #ffffff, #f8faff);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 255, 0.9));
             border: 1px solid rgba(99, 102, 241, 0.1);
             border-radius: 1.5rem;
             padding: 2rem;
             margin-top: 2rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        html.dark .optimization-card {
+            background: linear-gradient(145deg, rgba(45, 45, 53, 0.9), rgba(35, 35, 43, 0.9));
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .optimization-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            opacity: 0.7;
         }
 
         .optimization-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
             border-bottom: 2px solid rgba(99, 102, 241, 0.1);
         }
 
+        html.dark .optimization-header {
+            border-bottom-color: rgba(99, 102, 241, 0.2);
+        }
+
         .optimization-icon {
             background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: white;
-            width: 3rem;
-            height: 3rem;
+            width: 3.5rem;
+            height: 3.5rem;
             border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .optimization-icon:hover {
+            transform: rotate(15deg);
         }
 
         .complexity-section {
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             border: 1px solid rgba(99, 102, 241, 0.1);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        html.dark .complexity-section {
+            background: rgba(45, 45, 53, 0.8);
+            border-color: rgba(99, 102, 241, 0.2);
         }
 
         .complexity-section:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.08);
+        }
+
+        html.dark .complexity-section:hover {
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.15);
         }
 
         .section-title {
@@ -327,43 +389,73 @@
             font-weight: 600;
             color: #4f46e5;
             margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.1);
         }
 
-        .section-title i {
-            font-size: 1.1rem;
+        html.dark .section-title {
+            color: #818cf8;
+            border-bottom-color: rgba(99, 102, 241, 0.2);
         }
 
         .complexity-content {
-            background: #f8faff;
+            background: rgba(248, 250, 255, 0.8);
             border-radius: 0.75rem;
             padding: 1.25rem;
+            backdrop-filter: blur(8px);
+        }
+
+        html.dark .complexity-content {
+            background: rgba(35, 35, 43, 0.8);
         }
 
         .complexity-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+            color: #4f46e5;
             border-radius: 0.75rem;
             font-weight: 500;
             margin: 0.5rem 0;
-            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        html.dark .complexity-badge {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.2));
+            color: #818cf8;
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .complexity-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
         }
 
         .approach-section {
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 1rem;
             padding: 1.5rem;
             margin-top: 1.5rem;
             border: 1px solid rgba(99, 102, 241, 0.1);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        html.dark .approach-section {
+            background: rgba(45, 45, 53, 0.8);
+            border-color: rgba(99, 102, 241, 0.2);
         }
 
         .approach-section:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.08);
+        }
+
+        html.dark .approach-section:hover {
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.15);
         }
 
         .approach-title {
@@ -378,6 +470,11 @@
             border-bottom: 2px solid rgba(99, 102, 241, 0.1);
         }
 
+        html.dark .approach-title {
+            color: #818cf8;
+            border-bottom-color: rgba(99, 102, 241, 0.2);
+        }
+
         .approach-list {
             list-style: none;
             padding: 0;
@@ -386,10 +483,16 @@
 
         .approach-item {
             position: relative;
-            padding: 0.75rem 0 0.75rem 1.75rem;
+            padding: 1rem 0 1rem 2rem;
             color: #4b5563;
-            line-height: 1.5;
+            line-height: 1.6;
             border-bottom: 1px solid rgba(99, 102, 241, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        html.dark .approach-item {
+            color: #9ca3af;
+            border-bottom-color: rgba(99, 102, 241, 0.1);
         }
 
         .approach-item:last-child {
@@ -402,6 +505,21 @@
             left: 0;
             color: #6366f1;
             font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .approach-item:hover {
+            padding-left: 2.5rem;
+            color: #4f46e5;
+        }
+
+        html.dark .approach-item:hover {
+            color: #818cf8;
+        }
+
+        .approach-item:hover::before {
+            left: 0.5rem;
+            color: #818cf8;
         }
 
         html.dark .text-gray-900 {
