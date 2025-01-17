@@ -8,6 +8,31 @@ from bs4 import BeautifulSoup
 app = Flask(__name__, static_folder="static")
 
 patterns_dict = {
+    "backtracking": {
+        "suggestion": "Apply backtracking for problems that require exploring all possible combinations or permutations, especially when you need to find all valid solutions that satisfy certain constraints.",
+        "time_complexity": "O(N!) for permutations, O(2^N) for combinations/subsets, where N is the input size.",
+        "space_complexity": "O(N) for the recursion stack depth, plus space needed to store the solutions.",
+        "detailed_approach": [
+            "1. State Space Definition: Define what makes a valid solution and how to build it incrementally.",
+            "2. Choice Points: At each step, identify the valid choices that can be made to extend the current partial solution.",
+            "3. Constraints: Implement checks to validate if the current path can lead to a valid solution.",
+            "4. Base Cases: Define when to stop recursion (either when a valid solution is found or when the path cannot lead to a solution).",
+            "5. Backtrack Implementation: After exploring a path, undo the last choice to try other possibilities.",
+            "Example Use Case: N-Queens problem, generating all valid permutations, finding all possible combinations that sum to a target, and solving Sudoku puzzles.",
+        ],
+    },
+    "array": {
+        "suggestion": "Use array manipulation techniques for problems that involve processing sequences of elements, often requiring iteration, modification, or analysis of contiguous elements.",
+        "time_complexity": "O(n) for single pass solutions, O(n log n) if sorting is required, where n is the array length.",
+        "space_complexity": "O(1) for in-place operations, O(n) if additional storage is needed.",
+        "detailed_approach": [
+            "1. Array Access Pattern: Determine how to traverse the array - sequential, two pointers, sliding window, etc.",
+            "2. Element Processing: Define how to handle each element or group of elements during traversal.",
+            "3. State Tracking: Maintain necessary variables to track important information during array processing.",
+            "4. Edge Cases: Handle special cases like empty arrays, single elements, or duplicate values.",
+            "Example Use Case: Finding subarrays with specific properties, rotating arrays, removing duplicates, and implementing in-place modifications.",
+        ],
+    },
     "two_pointers": {
         "suggestion": "Employ the two-pointer technique for efficient array/string traversal, especially useful in sorted arrays or linked lists.",
         "time_complexity": "O(n) for a single pass, where n is the length of the input.",
@@ -309,36 +334,40 @@ patterns_dict = {
 
 def clean_html_content(html_content):
     """Clean HTML content and preserve formatting"""
-    if not html_content:
+    if not html_content or not isinstance(html_content, str):
         return ""
 
-    # Use BeautifulSoup to parse HTML
-    soup = BeautifulSoup(html_content, "html.parser")
+    try:
+        # Use BeautifulSoup to parse HTML
+        soup = BeautifulSoup(html_content, "html.parser")
 
-    # Replace <pre> tags with their content plus newlines
-    for pre in soup.find_all("pre"):
-        pre.replace_with("\n" + pre.get_text() + "\n")
+        # Replace <pre> tags with their content plus newlines
+        for pre in soup.find_all("pre"):
+            pre.replace_with("\n" + pre.get_text() + "\n")
 
-    # Replace <code> tags with their content
-    for code in soup.find_all("code"):
-        code.replace_with(code.get_text())
+        # Replace <code> tags with their content
+        for code in soup.find_all("code"):
+            code.replace_with(code.get_text())
 
-    # Replace <strong> tags with their content
-    for strong in soup.find_all("strong"):
-        strong.replace_with(strong.get_text())
+        # Replace <strong> tags with their content
+        for strong in soup.find_all("strong"):
+            strong.replace_with(strong.get_text())
 
-    # Replace <em> tags with their content
-    for em in soup.find_all("em"):
-        em.replace_with(em.get_text())
+        # Replace <em> tags with their content
+        for em in soup.find_all("em"):
+            em.replace_with(em.get_text())
 
-    # Get text while preserving some formatting
-    text = soup.get_text()
+        # Get text while preserving some formatting
+        text = soup.get_text()
 
-    # Clean up extra whitespace while preserving meaningful line breaks
-    lines = text.splitlines()  # Use splitlines() instead of split('\n')
-    text = "\n".join(line.strip() for line in lines if line.strip())
+        # Clean up extra whitespace while preserving meaningful line breaks
+        lines = text.splitlines()  # Use splitlines() instead of split('\n')
+        text = "\n".join(line.strip() for line in lines if line.strip())
 
-    return text
+        return text
+    except Exception as e:
+        print(f"Error cleaning HTML content: {str(e)}")
+        return ""
 
 
 def get_leetcode_problem(problem_number):
@@ -386,6 +415,8 @@ def get_leetcode_problem(problem_number):
         )
 
         data = response.json()
+        print(f"First API Response: {json.dumps(data, indent=2)}")  # Debug log
+
         questions = (
             data.get("data", {}).get("problemsetQuestionList", {}).get("questions", [])
         )
@@ -429,29 +460,59 @@ def get_leetcode_problem(problem_number):
         )
 
         data = response.json()
+        print(f"Second API Response: {json.dumps(data, indent=2)}")  # Debug log
+
         question = data.get("data", {}).get("question", {})
 
         if not question:
             raise Exception("Failed to fetch problem details")
 
+        # Print the raw content before cleaning
+        print(f"Raw content before cleaning: {question.get('content')}")  # Debug log
+
         # Clean HTML content
         content = clean_html_content(question.get("content", ""))
 
-        # Split content into sections
-        sections = content.split("\n")
+        # Print the cleaned content
+        print(f"Cleaned content: {content}")  # Debug log
+
+        # Initialize sections
         description = []
         constraints = []
         examples = []
-        current_section = description
 
-        for line in sections:
-            if "Constraints:" in line:
-                current_section = constraints
-            elif line.startswith("Example "):
-                current_section = examples
-            current_section.append(line)
+        try:
+            # Split content into sections more robustly
+            if content:
+                lines = content.split("\n") if isinstance(content, str) else []
+                current_section = description
 
-        return {
+                for line in lines:
+                    if not isinstance(line, str):
+                        continue
+
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    if "Constraints:" in line:
+                        current_section = constraints
+                    elif line.startswith("Example "):
+                        current_section = examples
+                    current_section.append(line)
+
+            # If no content was split properly, use the entire content as description
+            if not description and content:
+                description = [content]
+
+        except Exception as e:
+            print(f"Error splitting content: {str(e)}")
+            # If splitting fails, use the entire content as description
+            description = [content] if content else []
+            constraints = []
+            examples = []
+
+        result = {
             "title": question.get("title", ""),
             "difficulty": question.get("difficulty", "").capitalize(),
             "description": "\n".join(description).strip(),
@@ -460,7 +521,11 @@ def get_leetcode_problem(problem_number):
             "topics": [tag.get("name") for tag in question.get("topicTags", [])],
         }
 
+        print(f"Final processed result: {json.dumps(result, indent=2)}")  # Debug log
+        return result
+
     except Exception as e:
+        print(f"Error in get_leetcode_problem: {str(e)}")  # Debug log
         raise Exception(f"Failed to fetch problem: {str(e)}")
 
 
@@ -664,17 +729,39 @@ def analyze_problem():
             return jsonify({"error": "Problem number is required"}), 400
 
         # First fetch problem details from LeetCode
-        problem = get_leetcode_problem(problem_number)
-        if not problem:
-            return jsonify({"error": "Problem not found"}), 404
+        try:
+            problem = get_leetcode_problem(problem_number)
+            if not problem:
+                return jsonify({"error": "Problem not found"}), 404
+        except Exception as e:
+            return (
+                jsonify(
+                    {
+                        "error": str(e),
+                        "details": "Error occurred while fetching problem details. Please check the server logs for more information.",
+                    }
+                ),
+                500,
+            )
 
         # Then analyze with our enhanced system
-        optimization = analyze_constraints(
-            problem["constraints"],
-            problem["description"],
-            problem["title"],
-            problem_number,
-        )
+        try:
+            optimization = analyze_constraints(
+                problem["constraints"],
+                problem["description"],
+                problem["title"],
+                problem_number,
+            )
+        except Exception as e:
+            return (
+                jsonify(
+                    {
+                        "error": str(e),
+                        "details": "Error occurred during problem analysis. Please check the server logs for more information.",
+                    }
+                ),
+                500,
+            )
 
         # Return both LeetCode details and our analysis
         return jsonify(
@@ -689,7 +776,15 @@ def analyze_problem():
         )
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return (
+            jsonify(
+                {
+                    "error": str(e),
+                    "details": "An unexpected error occurred. Please check the server logs for more information.",
+                }
+            ),
+            500,
+        )
 
 
 @app.route("/profile", methods=["POST"])

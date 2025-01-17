@@ -1820,70 +1820,91 @@
     </div>
 
     <script>
-        function formatApproaches(content) {
-            if (!content) return '<div class="text-gray-500">No approaches available</div>';
+        function formatComplexity(content) {
+            if (!content || typeof content !== 'string') {
+                return '<div class="text-gray-500">Analysis not available</div>';
+            }
             
-            const sections = content.split('\n\n');
-            return sections.map(section => {
-                if (section.trim() === '') return '';
-                
-                if (section.includes('Approach:')) {
-                    const [title, ...details] = section.split('\n');
-                    return `
-                        <div class="approach-section">
-                            <div class="approach-title">
-                                <i class="fas fa-code-branch"></i>
-                                ${title.trim()}
+            try {
+                return content.split('\n').map(line => {
+                    if (!line || typeof line !== 'string') return '';
+                    
+                    line = line.trim();
+                    if (!line) return '';
+                    
+                    if (line.includes('Time:') || line.includes('Space:')) {
+                        const parts = line.split(':');
+                        if (parts.length < 2) return '';
+                        
+                        const [label, complexity] = parts;
+                        const icon = line.includes('Time:') ? 'fa-clock' : 'fa-memory';
+                        return `
+                            <div class="complexity-badge">
+                                <i class="fas ${icon}"></i>
+                                ${complexity.trim()}
                             </div>
-                            <ul class="approach-list">
-                                ${details.map(detail => {
-                                    detail = detail.trim();
-                                    return detail ? `<li class="approach-item">${detail}</li>` : '';
-                                }).filter(Boolean).join('')}
-                            </ul>
-                        </div>
-                    `;
-                } else {
-                    const lines = section.split('\n');
-                    const title = lines[0];
-                    const details = lines.slice(1);
-                    return `
-                        <div class="approach-section">
-                            <div class="approach-title">
-                                <i class="fas fa-list-check"></i>
-                                ${title.trim()}
-                            </div>
-                            <ul class="approach-list">
-                                ${details.map(detail => {
-                                    detail = detail.trim().replace(/^[•-]\s*/, '');
-                                    return detail ? `<li class="approach-item">${detail}</li>` : '';
-                                }).filter(Boolean).join('')}
-                            </ul>
-                        </div>
-                    `;
-                }
-            }).filter(Boolean).join('');
+                        `;
+                    }
+                    return `<div class="text-gray-700 mb-2">${line}</div>`;
+                }).filter(Boolean).join('');
+            } catch (error) {
+                console.error('Error formatting complexity:', error);
+                return '<div class="text-gray-500">Analysis not available</div>';
+            }
         }
 
-        function formatComplexity(content) {
-            if (!content) return '<div class="text-gray-500">Analysis not available</div>';
+        function formatApproaches(content) {
+            if (!content || typeof content !== 'string') {
+                return '<div class="text-gray-500">No approaches available</div>';
+            }
             
-            return content.split('\n').map(line => {
-                line = line.trim();
-                if (!line) return '';
-                
-                if (line.includes('Time:') || line.includes('Space:')) {
-                    const [label, complexity] = line.split(':').map(part => part.trim());
-                    const icon = line.includes('Time:') ? 'fa-clock' : 'fa-memory';
-                    return `
-                        <div class="complexity-badge">
-                            <i class="fas ${icon}"></i>
-                            ${complexity}
-                        </div>
-                    `;
-                }
-                return `<div class="text-gray-700 mb-2">${line}</div>`;
-            }).filter(Boolean).join('');
+            try {
+                const sections = content.split('\n\n');
+                return sections.map(section => {
+                    if (!section || typeof section !== 'string' || !section.trim()) return '';
+                    
+                    if (section.includes('Approach:')) {
+                        const [title, ...details] = section.split('\n');
+                        return `
+                            <div class="approach-section">
+                                <div class="approach-title">
+                                    <i class="fas fa-code-branch"></i>
+                                    ${title.trim()}
+                                </div>
+                                <ul class="approach-list">
+                                    ${details.map(detail => {
+                                        if (!detail || typeof detail !== 'string') return '';
+                                        detail = detail.trim();
+                                        return detail ? `<li class="approach-item">${detail}</li>` : '';
+                                    }).filter(Boolean).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        const lines = section.split('\n');
+                        const title = lines[0];
+                        const details = lines.slice(1);
+                        return `
+                            <div class="approach-section">
+                                <div class="approach-title">
+                                    <i class="fas fa-list-check"></i>
+                                    ${title.trim()}
+                                </div>
+                                <ul class="approach-list">
+                                    ${details.map(detail => {
+                                        if (!detail || typeof detail !== 'string') return '';
+                                        detail = detail.trim().replace(/^[•-]\s*/, '');
+                                        return detail ? `<li class="approach-item">${detail}</li>` : '';
+                                    }).filter(Boolean).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }).filter(Boolean).join('');
+            } catch (error) {
+                console.error('Error formatting approaches:', error);
+                return '<div class="text-gray-500">No approaches available</div>';
+            }
         }
 
         document.getElementById('problemForm').addEventListener('submit', async (e) => {
@@ -1906,42 +1927,67 @@
 
                 const data = await response.json();
                 
-                if (response.ok) {
+                // Check if we have valid data with required fields
+                if (data && data.title && data.description) {
                     // Update problem details
                     document.getElementById('problemTitle').textContent = data.title;
                     
                     const difficultyEl = document.getElementById('difficulty');
-                    difficultyEl.textContent = data.difficulty;
+                    difficultyEl.textContent = data.difficulty || 'Unknown';
                     difficultyEl.className = `px-3 py-1 rounded-full text-sm font-medium ${getDifficultyClass(data.difficulty)}`;
                     
                     document.getElementById('description').textContent = data.description;
-                    document.getElementById('constraints').textContent = data.constraints;
-                    document.getElementById('examples').textContent = data.examples;
+                    document.getElementById('constraints').textContent = data.constraints || 'No constraints available';
+                    document.getElementById('examples').textContent = data.examples || 'No examples available';
 
                     // Update optimization suggestions with formatted content
                     if (data.optimization) {
-                        document.getElementById('timeComplexityContent').innerHTML = 
-                            formatComplexity(data.optimization.time_complexity || 'Analysis not available');
-                        document.getElementById('spaceComplexityContent').innerHTML = 
-                            formatComplexity(data.optimization.space_complexity || 'Analysis not available');
-                        document.getElementById('approachesContent').innerHTML = 
-                            formatApproaches(data.optimization.approaches || 'Suggestions not available');
+                        const timeComplexityEl = document.getElementById('timeComplexityContent');
+                        const spaceComplexityEl = document.getElementById('spaceComplexityContent');
+                        const approachesEl = document.getElementById('approachesContent');
+
+                        // Safely handle each section
+                        if (timeComplexityEl) {
+                            timeComplexityEl.innerHTML = formatComplexity(data.optimization.time_complexity) || 'Time complexity analysis not available';
+                        }
+                        
+                        if (spaceComplexityEl) {
+                            spaceComplexityEl.innerHTML = formatComplexity(data.optimization.space_complexity) || 'Space complexity analysis not available';
+                        }
+                        
+                        if (approachesEl) {
+                            approachesEl.innerHTML = formatApproaches(data.optimization.approaches) || 'Approach suggestions not available';
+                        }
+                    } else {
+                        // Handle case where optimization data is missing
+                        ['timeComplexityContent', 'spaceComplexityContent', 'approachesContent'].forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) {
+                                el.innerHTML = '<div class="text-gray-500">Analysis not available</div>';
+                            }
+                        });
                     }
 
                     resultsEl.classList.remove('hidden');
-                } else {
-                    throw new Error(data.error || 'An error occurred');
-                }
-            } catch (error) {
-                const errorDialog = document.getElementById('errorDialog');
-                const errorMessage = document.getElementById('errorMessage');
-                
-                if (error.message.includes('NoneType') || error.message.toLowerCase().includes('failed to fetch problem')) {
-                    errorMessage.textContent = "This appears to be a premium question. Please try a different problem number.";
+                } else if (data.error) {
+                    // Show error dialog for API errors
+                    const errorDialog = document.getElementById('errorDialog');
+                    const errorMessage = document.getElementById('errorMessage');
+                    errorMessage.textContent = data.error;
                     errorDialog.classList.remove('hidden');
                 } else {
-                    alert(error.message);
+                    // Show error dialog for invalid data
+                    const errorDialog = document.getElementById('errorDialog');
+                    const errorMessage = document.getElementById('errorMessage');
+                    errorMessage.textContent = "This appears to be a premium question or the content is not accessible. Please try a different problem number.";
+                    errorDialog.classList.remove('hidden');
                 }
+            } catch (error) {
+                console.error('Error:', error);
+                const errorDialog = document.getElementById('errorDialog');
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = "An error occurred while processing the request. Please try again.";
+                errorDialog.classList.remove('hidden');
             } finally {
                 loadingEl.classList.add('hidden');
             }
