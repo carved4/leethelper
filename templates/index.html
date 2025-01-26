@@ -58,8 +58,8 @@
         }
 
         html.light body {
-            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.05), transparent 40%),
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.1), transparent 40%),
                         var(--bg-gradient-light);
             color: var(--text-primary-light);
         }
@@ -620,152 +620,155 @@
         }
 
         @media (max-width: 768px) {
+            .main-container {
+                padding: 0.5rem;
+            }
+
+            .search-card {
+                margin: 1rem 0.5rem;
+                padding: 1.5rem;
+            }
+
             .navbar-container {
                 padding: 0.75rem 1rem;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 0.75rem;
                 justify-content: space-between;
+                align-items: center;
+                gap: 0.5rem;
             }
 
             .social-links {
-                order: 1;
-                width: auto;
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-            }
-
-            .flex.items-center.gap-4 {
-                order: 2;
-                width: auto;
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                margin: 0;
-            }
-
-            #statsDropdownButton {
-                background: rgba(99, 102, 241, 0.1);
-                padding: 0.5rem 0.75rem;
-                border-radius: 0.75rem;
-                font-size: 0.875rem;
-                height: 36px;
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
+            }
+
+            /* Adjust GitHub link for mobile */
+            .github-link {
+                padding: 0.5rem !important;
+                width: 40px !important;
+                height: 40px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .github-text,
+            .github-stars {
+                display: none !important;
+            }
+
+            /* Adjust social links for mobile */
+            .social-link {
+                width: 40px;
+                height: 40px;
+                padding: 0;
+            }
+
+            /* Adjust stats button for mobile */
+            #statsDropdownButton {
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 0.75rem;
+                background: rgba(99, 102, 241, 0.1);
             }
 
             html.dark #statsDropdownButton {
                 background: rgba(99, 102, 241, 0.2);
             }
 
-            .github-link {
-                height: 36px;
-                padding: 0 0.75rem;
-                font-size: 0.875rem;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
+            #statsDropdownButton span,
+            #statsDropdownButton i.fa-chevron-down {
+                display: none;
             }
 
-            .social-link {
-                width: 36px;
-                height: 36px;
-                font-size: 1.125rem;
-            }
-
+            /* Adjust theme toggle for mobile */
             .theme-toggle {
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 40px;
+                padding: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: rgba(99, 102, 241, 0.1);
                 border-radius: 0.75rem;
+                background: rgba(99, 102, 241, 0.1);
             }
 
             html.dark .theme-toggle {
                 background: rgba(99, 102, 241, 0.2);
             }
-        }
-
-        @media (max-width: 480px) {
-            .navbar-container {
-                padding: 0.5rem 0.75rem;
-            }
-
-            .github-text {
-                display: none;
-            }
-
-            .github-link {
-                padding: 0 0.5rem;
-                width: auto;
-            }
-
-            .github-stars {
-                margin-left: 0;
-                padding-left: 0;
-                border-left: none;
-            }
-
-            #statsDropdownButton span {
-                display: none;
-            }
-
-            #statsDropdownButton {
-                padding: 0;
-                width: 36px;
-                justify-content: center;
-            }
-
-            #statsDropdownButton i.fa-chevron-down {
-                display: none;
-            }
-        }
-
-        /* Add smooth bottom sheet interaction */
-        @media (max-width: 768px) {
-            #statsDropdown {
-                -webkit-overflow-scrolling: touch;
-            }
-
-            #statsDropdown.show {
-                box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 
-                           0 -2px 4px -1px rgba(0, 0, 0, 0.06);
-            }
-
-            /* Add overscroll behavior */
-            body {
-                overscroll-behavior-y: contain;
-            }
 
             /* Improve touch targets */
             .social-link,
-            .theme-toggle,
+            .github-link,
             #statsDropdownButton,
-            .search-button,
-            .github-link {
-                min-height: 44px;
-                min-width: 44px;
+            .theme-toggle {
+                min-height: 40px;
+                min-width: 40px;
             }
 
             /* Add active states for touch */
             .social-link:active,
-            .theme-toggle:active,
+            .github-link:active,
             #statsDropdownButton:active,
-            .search-button:active,
-            .github-link:active {
+            .theme-toggle:active {
                 transform: scale(0.95);
             }
 
-            /* Improve form inputs */
-            input[type="text"],
-            input[type="number"] {
-                -webkit-appearance: none;
-                border-radius: 0.75rem;
-                font-size: 16px; /* Prevent iOS zoom */
+            /* Additional adjustments for very small screens */
+            @media (max-width: 360px) {
+                .navbar-container {
+                    padding: 0.5rem;
+                }
+
+                .social-links {
+                    gap: 0.25rem;
+                }
+
+                .social-link,
+                .github-link,
+                #statsDropdownButton,
+                .theme-toggle {
+                    width: 36px;
+                    height: 36px;
+                    min-width: 36px;
+                    min-height: 36px;
+                }
+            }
+        }
+
+        /* Adjust for even smaller screens */
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.25rem;
+            }
+
+            .search-card {
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            #statsDropdownButton {
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            #statsDropdownButton span,
+            #statsDropdownButton i.fa-chevron-down {
+                display: none;
             }
         }
 
@@ -932,44 +935,6 @@
             margin-right: 4px !important;
         }
 
-        
-        .social-links {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        
-        .social-link {
-            width: 2.5rem;
-            height: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            color: #4f46e5;
-            font-size: 1.25rem;
-        }
-
-        html.light .social-link {
-            color: #24292e;
-        }
-
-        html.dark .social-link {
-            color: #c9d1d9;
-        }
-
-        .social-link:hover {
-            background: rgba(36, 41, 46, 0.1);
-            transform: translateY(-2px);
-        }
-
-        html.dark .social-link:hover {
-            background: rgba(240, 246, 252, 0.1);
-        }
-
-        
         body::before {
             content: "";
             position: fixed;
@@ -1478,98 +1443,6 @@
             border-top: 3px solid #6366f1;
             border-radius: 50%;
             animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-
-        /* Enhanced mobile navigation */
-        @media (max-width: 768px) {
-            .navbar-container {
-                padding: 0.75rem 1rem;
-            }
-
-            .social-links {
-                gap: 0.75rem;
-            }
-
-            .github-link {
-                height: 40px;
-                padding: 0 0.875rem;
-            }
-
-            .social-link {
-                width: 40px;
-                height: 40px;
-            }
-
-            /* Improved mobile dropdown */
-            #statsDropdown {
-                position: fixed;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                margin: 0;
-                border-radius: 1.25rem 1.25rem 0 0;
-                max-height: 80vh;
-                overflow-y: auto;
-                transform: translateY(100%);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            #statsDropdown.show {
-                transform: translateY(0);
-            }
-
-            /* Add pull indicator for mobile dropdown */
-            #statsDropdown::before {
-                content: '';
-                position: absolute;
-                top: 0.75rem;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 2.5rem;
-                height: 0.25rem;
-                background: rgba(99, 102, 241, 0.3);
-                border-radius: 1rem;
-            }
-        }
-
-        /* Enhanced input focus states */
-        .search-input:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1),
-                        0 0 20px rgba(99, 102, 241, 0.1);
-            transform: translateY(-1px);
-        }
-
-        /* Improved button interactions */
-        .search-button,
-        .github-link,
-        .social-link {
-            transform: translateY(0);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .search-button:active,
-        .github-link:active,
-        .social-link:active {
-            transform: translateY(1px);
-        }
-
-        /* Enhanced scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.3);
-            border-radius: 4px;
-        }
-
-        html.dark ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.4);
         }
 
         /* Smooth transitions for theme switching */
@@ -2167,29 +2040,39 @@
             const dropdown = document.getElementById('statsDropdown');
             let isDropdownVisible = false;
             
+            // Create backdrop element
+            const backdrop = document.createElement('div');
+            backdrop.className = 'dropdown-backdrop';
+            document.body.appendChild(backdrop);
+            
             // Function to close dropdown
             function closeDropdown() {
                 dropdown.classList.remove('show');
+                backdrop.classList.remove('show');
                 isDropdownVisible = false;
+                document.body.style.overflow = '';
+            }
+            
+            // Function to open dropdown
+            function openDropdown() {
+                dropdown.classList.add('show');
+                backdrop.classList.add('show');
+                isDropdownVisible = true;
+                document.body.style.overflow = 'hidden'; // Prevent body scroll
             }
             
             // Toggle dropdown on button click
             dropdownButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                isDropdownVisible = !isDropdownVisible;
                 if (isDropdownVisible) {
-                    dropdown.classList.add('show');
-                } else {
                     closeDropdown();
+                } else {
+                    openDropdown();
                 }
             });
             
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!dropdown.contains(e.target) && !dropdownButton.contains(e.target)) {
-                    closeDropdown();
-                }
-            });
+            // Close dropdown when clicking backdrop
+            backdrop.addEventListener('click', closeDropdown);
             
             // Prevent dropdown from closing when clicking inside it
             dropdown.addEventListener('click', (e) => {
@@ -2199,12 +2082,16 @@
             // Add touch event handling for mobile
             let touchStartY = 0;
             let touchEndY = 0;
+            let isDragging = false;
             
             dropdown.addEventListener('touchstart', (e) => {
                 touchStartY = e.touches[0].clientY;
+                isDragging = true;
             }, { passive: true });
             
             dropdown.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                
                 touchEndY = e.touches[0].clientY;
                 const deltaY = touchEndY - touchStartY;
                 
@@ -2213,12 +2100,23 @@
                     closeDropdown();
                 }
             }, { passive: true });
+            
+            dropdown.addEventListener('touchend', () => {
+                isDragging = false;
+            }, { passive: true });
 
             // Handle form submission
             const profileForm = document.getElementById('profileForm');
             profileForm.addEventListener('submit', (e) => {
                 // Keep the dropdown open on mobile after form submission
                 if (window.innerWidth > 768) {
+                    closeDropdown();
+                }
+            });
+
+            // Close dropdown on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isDropdownVisible) {
                     closeDropdown();
                 }
             });

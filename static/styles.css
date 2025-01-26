@@ -1,0 +1,191 @@
+@import url('https://fonts.cdnfonts.com/css/eightgon');
+
+.modern-gradient-text,
+.modern-accent-text,
+.modern-dot {
+    font-family: 'Eightgon', sans-serif;
+}
+
+.hero-subtitle {
+    font-family: 'Eightgon', sans-serif;
+    color: #6366f1;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    letter-spacing: 0.02em;
+}
+
+header h1 {
+    font-family: 'Eightgon', sans-serif;
+    animation: fadeInUp 0.8s ease-out forwards;
+    letter-spacing: 0.02em;
+}
+
+:root {
+    --bg-gradient-light: linear-gradient(135deg, #f0f4ff 0%, #f9fafb 100%);
+    --bg-gradient-dark: linear-gradient(135deg, #1a1b1e 0%, #2d2d35 100%);
+    --card-bg-light: #ffffff;
+    --card-bg-dark: #2d2d35;
+    --text-primary-light: #1f2937;
+    --text-primary-dark: #e5e7eb;
+    --text-secondary-light: #4b5563;
+    --text-secondary-dark: #9ca3af;
+    --border-light: rgba(99, 102, 241, 0.1);
+    --border-dark: rgba(99, 102, 241, 0.2);
+    --grid-color-light: rgba(99, 102, 241, 0.12);
+    --grid-color-dark: rgba(99, 102, 241, 0.12);
+}
+
+body { 
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.3s ease;
+}
+
+html.light body {
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.05), transparent 40%),
+                var(--bg-gradient-light);
+    color: var(--text-primary-light);
+}
+
+html.dark body {
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.15), transparent 40%),
+                var(--bg-gradient-dark);
+    color: var(--text-primary-dark);
+}
+
+.navbar {
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    padding: 0.75rem 0;
+}
+
+html.light .navbar {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid var(--border-light);
+}
+
+html.dark .navbar {
+    background: rgba(45, 45, 53, 0.8);
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.search-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+.optimization-icon {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.approach-item:hover {
+    padding-left: 2.5rem;
+    color: #4f46e5;
+}
+
+@media (max-width: 480px) {
+    .navbar-container {
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+header h1:hover .modern-gradient-text,
+header h1:hover .modern-accent-text {
+    text-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.modern-gradient-text {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.4);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.6);
+}
+
+@media (max-width: 768px) {
+    .result-card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+    }
+    
+    #statsDropdown {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: auto;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        bottom: 0;
+        transform: translateY(100%);
+        transition: transform 0.3s ease-in-out;
+        margin: 0;
+        border-radius: 1.25rem 1.25rem 0 0;
+        box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+        z-index: 50;
+    }
+
+    #statsDropdown.show {
+        transform: translateY(0);
+    }
+
+    .dropdown-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+    }
+
+    .dropdown-backdrop.show {
+        display: block;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.5);
+}
