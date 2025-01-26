@@ -571,29 +571,57 @@
         }
 
         .social-link {
-            font-size: 1.25rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            color: #24292e;
-        }
-
-        .social-link:hover {
-            background: rgba(36, 41, 46, 0.1);
-            transform: translateY(-2px);
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 6px 12px !important;
+            background: rgba(99, 102, 241, 0.1) !important;
+            border: none !important;
+            border-radius: 0.75rem !important;
+            color: #4f46e5 !important;
+            font-size: 1.25rem !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+            width: auto !important;
+            height: auto !important;
         }
 
         html.dark .social-link {
-            color: #c9d1d9;
+            background: rgba(99, 102, 241, 0.2) !important;
+            color: #818cf8 !important;
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px) !important;
+            background: rgba(99, 102, 241, 0.2) !important;
         }
 
         html.dark .social-link:hover {
-            background: rgba(240, 246, 252, 0.1);
+            background: rgba(99, 102, 241, 0.3) !important;
+        }
+
+        @media (max-width: 768px) {
+            .social-link {
+                width: 40px !important;
+                height: 40px !important;
+                padding: 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                border-radius: 0.75rem !important;
+            }
+
+            .social-link i {
+                font-size: 1.25rem !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .social-link {
+                width: 36px !important;
+                height: 36px !important;
+                min-width: 36px !important;
+                min-height: 36px !important;
+            }
         }
 
         .navbar {
